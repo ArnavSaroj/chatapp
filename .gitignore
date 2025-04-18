@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 .env
+
+
+#chat session files
+chat.session
+*.session
+*.session.sql
+
+
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
