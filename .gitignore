@@ -32,3 +32,7 @@ chat.session
 *.njsproj
 *.sln
 *.sw?
+
+
+.env
+session.sql

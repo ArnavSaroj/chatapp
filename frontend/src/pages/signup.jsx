@@ -2,24 +2,62 @@ import React, { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import { MessageSquare, User, Mail, Eye, EyeOff,Lock } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import AuthImagePattern from '../components/AuthImagePattern'
+import toast from 'react-hot-toast'
 
 const Signup = () => {
 
 
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     password: ""
   })
 
-  const { Signup, isSigningUp } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
   
   const validateForm = () => {
+    const isValidEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
   
+    if (!formData.fullname.trim()) {
+      toast.error("Full name is required");
+      return false;
+    }
+  
+    if (!formData.email.trim()) {
+      toast.error("Email is required");
+      return false;
+    }
+  
+    if (!isValidEmail(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return false;  
+    }
+  
+    if (!formData.password.trim()) {
+      toast.error("Password is required");  
+      return false;
+    }
+  
+    return true;
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
+
+    const success = validateForm();
+    if (success === true) {
+      try {
+        await signup(formData);
+      } catch (error) {
+        console.error("Form submission error:", error);
+      }
+    }    
+
+
   }
 
   return (
@@ -54,8 +92,8 @@ const Signup = () => {
                   type="text"
                   className={`input input-bordered w-full pl-10`}
                   placeholder=""
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  value={formData.fullname}
+                  onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                 />
               </div>
             </div>
@@ -133,6 +171,13 @@ const Signup = () => {
 
         </div>
       </div>
+
+      <AuthImagePattern
+        title="join our community"
+      subtitle="connect with friends,share moments and stay in touch with each other"
+      
+      />
+
     </div>
 
   )

@@ -1,5 +1,6 @@
 import cloudinary from "../lib/cloudinary.js";
 import db from "../lib/db.js"
+import {getReceiveSocketId,io} from '../lib/socket.js'
 
 export const allusers = async (req, res) => {
     
@@ -20,14 +21,12 @@ try {
 export const getMessages = async (req, res) => {
     try {
         
-        const { id:senderid } = req.params;
+        const { id: senderid } = req.params;
         const userownid = req.user.id;
         const allmessages = await db.query("select * from messages where (sender_id=$1 and receiver_id=$2)or(sender_id=$2 and receiver_id=$1) order by sent_at ASC", [senderid, userownid]);
 
-        res.status(201).json({
-            message
-            :allmessages.rows
-        })
+        res.status(201).json(allmessages.rows
+        )
 
 
     } catch (error) {
@@ -48,13 +47,18 @@ export const sendMessage = async (req, res) => {
             const uploadedImage = await cloudinary.uploader.upload(image)
             imageUrl = uploadedImage.secure_url;
         }
-        const newMessage = new Message({
-            sender_id,receiver_id,text,image:imageUrl
-        })
-
-        // this is remaining to add
+      const newMessage = await db.query(
+      "INSERT INTO messages (sender_id, receiver_id, text, image, sent_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *",
+      [sender_id, receiver_id, text, imageUrl]
+    );
         
-res.status(201).json({message:newMessage})
+        const ReceiverStockId = getReceiveSocketId(receiver_id)
+        if (ReceiverStockId) {
+            io.to(ReceiverStockId).emit("newMessage",newMessage.rows[0])
+        }
+
+
+res.status(201).json(newMessage.rows[0])
 
     } catch (error) {
         console.error(error.message)
