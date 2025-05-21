@@ -1,5 +1,4 @@
 # 💬 CHATTY TOP Chat Application
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/ArnavSaroj/chatapp)
 
 Chatty Top is a real-time chat application built with the PERN (PostgreSQL, Express, React, Node.js) stack, designed for seamless communication. It features user authentication, real-time messaging with text and images, online user status, and a customizable theme interface.
 
