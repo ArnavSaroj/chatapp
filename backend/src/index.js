@@ -4,8 +4,8 @@ import authRoutes from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import messageRoutes from "./routes/messages.route.js";
 import cors from "cors";
-import {app, server} from './lib/socket.js'
-import path from 'path'
+import { app, server } from "./lib/socket.js";
+import path from "path";
 
 dotenv.config();
 
@@ -22,15 +22,19 @@ app.use(
   })
 );
 
+// Debugging log for incoming requests
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")))
-  
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
-  })
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  // Move this to the end of the file
+  app.get(/(.*)/, (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
 }
 
-server.listen(port, () => console.log(`server running on port ${port}👍🏻`));
+server.listen(port, () => console.log(`Server running on port ${port} 👍🏻`));

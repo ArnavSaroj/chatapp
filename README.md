@@ -45,7 +45,7 @@ NODE_ENV=development # Use 'production' for deployment
 ## Database Setup
 
 The application uses a PostgreSQL database. Ensure you have PostgreSQL installed and running.
-You'll need to create a database (e.g., `gupshup_db`) and then create the following tables within it:
+You'll need to create a database (e.g., `gapshup_db`) and then create the following tables within it:
 
 1.  **`users` table**:
     ```sql
