@@ -2,7 +2,7 @@
 
 Chatty Top is a real-time chat application built with the PERN (PostgreSQL, Express, React, Node.js) stack, designed for seamless communication. It features user authentication, real-time messaging with text and images, online user status, and a customizable theme interface.
 
-##THIS IS THE DEPLOYED VERSION OF THIS APP:https://chatty-top.onrender.com
+THIS IS THE DEPLOYED VERSION OF THIS APP:https://chatty-top.onrender.com
 
 ## 🚀 Features
 
